@@ -30,7 +30,7 @@ trainloader = DataLoader(trainset, batch_size=BATCH_SIZE, shuffle=True)
 testset = torchvision.datasets.CIFAR10(root='./data', train=False, download=True, transform=transform)
 testloader = DataLoader(testset, batch_size=BATCH_SIZE, shuffle=False)
 
-# 3. 네트워크 구성 (Scratch 모델)
+# 3. 네트워크 구성 (Scratch 모델) 3개의 Conv Layer와 Batch Normalization
 class SimpleCNN(nn.Module):
     def __init__(self):
         super(SimpleCNN, self).__init__()
@@ -65,7 +65,7 @@ class SimpleCNN(nn.Module):
 
 model = SimpleCNN().to(device)
 
-# 4. FLOPs 및 파라미터 수 계산
+# 4. FLOPs 및 파라미터 수 계산 thop (PyTorch-OpCounter) 라이브러리
 if profile:
     input_dummy = torch.randn(1, 3, 32, 32).to(device)
     flops, params = profile(model, inputs=(input_dummy, ), verbose=False)
@@ -94,7 +94,7 @@ for epoch in range(EPOCHS):
 
     print(f"Epoch [{epoch+1}/{EPOCHS}] Loss: {running_loss/len(trainloader):.4f}")
 
-# 7. 정확도 계산(Accuracy)
+# 7. 정확도 계산(Accuracy) Test Dataset 전체에 대한 Top-1 Accuracy를 백분율로 출력
 model.eval()
 correct = 0
 total = 0
