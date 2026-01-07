@@ -14,3 +14,4 @@ Epoch [8/10] Loss: 0.5583
 Epoch [9/10] Loss: 0.5156
 Epoch [10/10] Loss: 0.4749
 
+Final Test Accuracy: 78.4699999999999988631316%
