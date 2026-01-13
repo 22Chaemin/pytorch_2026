@@ -1,0 +1,28 @@
+Using device: cpu
+100.0%
+100.0%
+100.0%
+100.0%
+학습 시작...
+Epoch [1/20], Train Loss: 0.0160
+Epoch [2/20], Train Loss: 0.0114
+Epoch [3/20], Train Loss: 0.0111
+Epoch [4/20], Train Loss: 0.0109
+Epoch [5/20], Train Loss: 0.0108
+Epoch [6/20], Train Loss: 0.0108
+Epoch [7/20], Train Loss: 0.0107
+Epoch [8/20], Train Loss: 0.0107
+Epoch [9/20], Train Loss: 0.0106
+Epoch [10/20], Train Loss: 0.0106
+Epoch [11/20], Train Loss: 0.0105
+Epoch [12/20], Train Loss: 0.0105
+Epoch [13/20], Train Loss: 0.0105
+Epoch [14/20], Train Loss: 0.0105
+Epoch [15/20], Train Loss: 0.0105
+Epoch [16/20], Train Loss: 0.0105
+Epoch [17/20], Train Loss: 0.0104
+Epoch [18/20], Train Loss: 0.0104
+Epoch [19/20], Train Loss: 0.0104
+Epoch [20/20], Train Loss: 0.0104
+최종 Test MSE Loss: 0.01030
+최종 점수 (Score): 89.70 / 100점
