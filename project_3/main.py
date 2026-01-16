@@ -9,6 +9,8 @@ import torch.nn.functional as F
 import matplotlib.pyplot as plt
 import numpy as np
 
+import copy
+
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(f"현재 사용 장치: {device}")
 
@@ -296,12 +298,14 @@ print("학습 완료!")
 from thop import profile
 
 def print_model_complexity(model, input_size=(1, 3, 224, 224)):
-    model.eval()
+    temp_model = copy.deepcopy(model)
+    temp_model.eval()
+
     device = next(model.parameters()).device
     dummy_input = torch.randn(input_size).to(device)
 
     # thop를 사용하여 FLOPs와 Params 계산
-    flops, params = profile(model, inputs=(dummy_input, ), verbose=False)
+    flops, params = profile(temp_model, inputs=(dummy_input, ), verbose=False)
 
     flops_g = flops / 1e9
     params_m = params / 1e6
@@ -310,6 +314,8 @@ def print_model_complexity(model, input_size=(1, 3, 224, 224)):
     print(f"   - FLOPs  : {flops_g:.3f} GFLOPs")
     print(f"   - Params : {params_m:.3f} M")
     print("-" * 30)
+
+    del temp_model
 
 # 1. Dice Score 계산 함수
 def calculate_dice(pred, target, threshold=0.5):
