@@ -191,7 +191,41 @@ class ResNetUNet(nn.Module):
 
         # (여기에 코드를 작성하세요)
 
-        return output
+        # Encoder
+        # ResNet의 각 계층을 통과하며 특징을 추출한다.
+        l0 = self.layer0(x) # (64, 112, 112)
+        l1 = self.layer1(l0) # (64, 56, 56)
+        l2 = self.layer2(l1) # (128, 28, 28)
+        l3 = self.layer3(l2) # (256, 14, 14)
+        l4 = self.layer4(l3) # (512, 7, 7)
+
+        # Decoder
+        # l4를 7x7에서 14x14로 업샘플링 하고 l3와 결합
+        up4 = self.upconv4(l4) # (256, 14, 14)
+        up4 = torch.cat([up4, l3], dim=1) # (256 + 256, 14, 14)
+
+        # up4를 14x14에서 28x28로 업샘플링 하고 l2와 결합
+        up3 = self.upconv3(up4) # (128, 28, 28)
+        up3 = torch.cat([up3, l2], dim=1) # (128 + 128, 28, 28)
+
+        # up3를 28x28에서 56x56로 업샘플링 하고 l1과 결합
+        up2 = self.upconv2(up3) # (64, 56, 56)
+        up2 = torch.cat([up2, l1], dim=1) # (64 + 64, 56, 56)
+
+        # up2를 56x56에서 112x112로 업샘플링 하고 l0과 결합
+        up1 = self.upconv1(up2) # (64, 112, 112)
+        up1 = torch.cat([up1, l0], dim=1) # (64 + 64, 112, 112)
+
+        # 최종 출력
+        # l0가 이미 112x112 크기이므로, 최종 결과를 뽑은 뒤 원본 크기로 복원
+        output = self.final_conv(up1) # (n_class, 112, 112)
+
+        # 112x112에서 224x224로 Input 크기로 업샘플링
+        output = F.interpolate(output, size=x.shape[2:], mode='bilinear', align_corners=True)
+
+        # Sigmoid 적용
+        return torch.sigmoid(output)
+
 
 model = ResNetUNet().to(device)
 print("모델 생성 완료")
