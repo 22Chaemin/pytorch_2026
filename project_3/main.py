@@ -269,6 +269,24 @@ for epoch in range(epochs):
 
         # (여기에 코드를 작성하세요)
 
+        # Gradient 초기화
+        optimizer.zero_grad()
+
+        # 모델 예측
+        outputs = model(images)
+
+        # 손실 계산
+        # Loss = BCE + Dice (픽셀 단위 정확도 + 전체적인 형태 일치도)
+        loss_bce = criterion_bce(outputs, masks)
+        loss_dice = criterion_dice(outputs, masks)
+        loss = loss_bce + loss_dice
+
+        # 역전파
+        loss.backward()
+
+        # 가중치 업데이트
+        optimizer.step()
+
         running_loss += loss.item()
 
     print(f"Epoch [{epoch+1}/{epochs}], Loss: {running_loss/len(train_loader):.4f}")
