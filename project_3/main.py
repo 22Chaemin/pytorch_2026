@@ -137,15 +137,15 @@ class ResNetUNet(nn.Module):
 
         # Encoder 부분 (ResNet 계층 활용)
 
-        # layer0 정의 
+        # layer0 정의 초기 선과 색상 파악
         self.layer0 = nn.Sequential(*self.base_layers[:3])
-        # layer1 정의
+        # layer1 정의 기본적인 도형 파악
         self.layer1 = nn.Sequential(*self.base_layers[3:5])
-        # layer2 정의
+        # layer2 정의 구체적인 부위 파악
         self.layer2 = self.base_layers[5]
-        # layer3 정의
+        # layer3 정의 복잡한 특징 파악
         self.layer3 = self.base_layers[6]
-        # layer4 정의
+        # layer4 정의 가장 추상적인 정보 파악
         self.layer4 = self.base_layers[7]
 
         # Decoder 부분 (Upsampling)
